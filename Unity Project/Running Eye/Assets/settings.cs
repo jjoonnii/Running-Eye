@@ -10,12 +10,14 @@ public class settings : MonoBehaviour
     public int level_length = 5;
     public bool standard_input = false;
     public float game_speed = 0.85f;
-
+    private int deactivate_time=1;
     Slider speed;
     Slider lenght;
+    Slider time;
     Toggle sinput;
     Text lenght_text;
     Text speed_text;
+    Text time_text;
     // Use this for initialization
     void Start()
     {
@@ -23,9 +25,13 @@ public class settings : MonoBehaviour
 
         lenght_text = GameObject.Find("Settings_1_Out").GetComponent<Text>();
         speed_text = GameObject.Find("Settings_2_Out").GetComponent<Text>();
+       time_text = GameObject.Find("Settings_3_Out").GetComponent<Text>();
 
         speed = GameObject.Find("Slider_Speed").GetComponent<Slider>();
         lenght = GameObject.Find("Slider_Lenght").GetComponent<Slider>();
+        time = GameObject.Find("Slider_Time").GetComponent<Slider>();
+
+
         sinput = GameObject.Find("Input").GetComponent<Toggle>();
 
         Button start = GameObject.Find("Button").GetComponent<Button>();
@@ -42,46 +48,17 @@ public class settings : MonoBehaviour
         {
             level_length = PlayerPrefs.GetInt("Lenght");
         }
+        if (PlayerPrefs.HasKey("Deactivate_Time"))
+        {
+            deactivate_time = PlayerPrefs.GetInt("Deactivate_Time")+1;
+        }
 
 
-
-        /*
-                if (PlayerPrefs.HasKey("Porgress"))
-                {
-                    progress = PlayerPrefs.GetInt("Porgress");
-                    if (progress > 98)
-                    {
-                        lg1.text = "YOU WON";
-                    }
-                    else
-                    {
-                        lg1.text = "YOU LOST";
-                    }
-                }
-                else
-                {
-                    lg1.text = "YOU DIDN'T PLAYED";
-                }
-                if (PlayerPrefs.HasKey("Target"))
-                {
-                    target = PlayerPrefs.GetInt("Target");
-                }
-                if (PlayerPrefs.HasKey("Points"))
-                {
-                    points = PlayerPrefs.GetInt("Points");
-                }
-                if (PlayerPrefs.HasKey("HighPoints"))
-                {
-                    high_points = PlayerPrefs.GetInt("HighPoints");
-                }
-
-
-
-                lg3.text = points + " POINTS";
-                highscore.text = high_points + "";
-                */
         speed.value = game_speed;
         lenght.value = level_length;
+        time.value = deactivate_time;
+
+        SetSliderValue_Time(deactivate_time);
         SetSliderValue_Speed(game_speed);
         SetSliderValue_Lenght(level_length);
 
@@ -97,6 +74,11 @@ public class settings : MonoBehaviour
     {
         lenght_text.text = Mathf.Round(sliderValue * 1).ToString();
     }
+
+    public void SetSliderValue_Time(float sliderValue)
+    {
+        time_text.text = Mathf.Round(sliderValue * 1).ToString();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -106,6 +88,7 @@ public class settings : MonoBehaviour
     {
         game_speed = speed.value;
         level_length = (int)lenght.value;
+        deactivate_time = (int)time.value;
         standard_input = sinput.isOn;
 
         PlayerPrefs.SetFloat("Speed", game_speed);
@@ -116,7 +99,8 @@ public class settings : MonoBehaviour
             input = 1;
         }
         PlayerPrefs.SetInt("Input", input);
-
+        PlayerPrefs.SetInt("Deactivate_Time", deactivate_time-1);
+      
         SceneManager.LoadScene("menue");
     }
 }
