@@ -36,13 +36,7 @@ public class Affectable_Object : MonoBehaviour
     private float dwellNoFocus = 0;
     private GameObject controller;
     private Controller c;
-    public int deactivate_time;
-
-    private int deactivate_in = -1;
-    private float nextTime = 0.0f;
-  
-
-
+   
 
     public bool constrain_rot_X = false;
     public bool constrain_rot_Y = false;
@@ -65,7 +59,7 @@ public class Affectable_Object : MonoBehaviour
      
 
         standard_input = c.standard_input;
-        deactivate_time = c.deactivate_time;
+
         gameObject.AddComponent<Light>();
         focus_light = gameObject.GetComponent<Light>();
         focus_light.type = LightType.Point;
@@ -95,11 +89,6 @@ public class Affectable_Object : MonoBehaviour
         {
 
             get_degree_std();
-            if (Time.time > nextTime)
-            {
-                nextTime += 1f;
-                check_deactivate();
-            }
         }
         else
         {
@@ -150,33 +139,13 @@ public class Affectable_Object : MonoBehaviour
             affect_object();
         }
     }
-    private void check_deactivate()
-    {
 
-        if(deactivate_in>=0)
-        {
-            
-                // execute block of code here
-
-                if (deactivate_in == 0)
-                {
-                    focus = false;
-                }
-                else
-                {
-                    deactivate_in = deactivate_in - 1;
-                }
-            }
-        
-       
-    }
     void OnMouseOver()
     {
         if (standard_input)
         {
             activate_physics(true);
             focus = true;
-            deactivate_in = -1;
         }
     }
     private void check_old()
@@ -190,15 +159,7 @@ if((c.player.transform.position.x-gameObject.transform.position.x)>20)
     {
         if (standard_input)
         {
-            if (deactivate_time < 0)
-            {
-                focus = false;
-            }
-            else
-            {
-                // 
-                deactivate_in = deactivate_time;
-            }
+            focus = false;
            
         }
     }
@@ -258,7 +219,6 @@ if((c.player.transform.position.x-gameObject.transform.position.x)>20)
     }
     private void get_degree_std()
     {
-       
         input_degree_X = Input.GetAxis("Horizontal") * (-1) * 21;
         input_degree_X = input_degree_X + 180;
 

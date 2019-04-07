@@ -11,6 +11,10 @@ public class Controller : MonoBehaviour
     public bool standard_input = false;
     public float game_speed = 1;
     public GameObject[] prefabs;
+
+
+
+
     public int current_build_position = 0;
     public double game_percentage = 0;
     public int level_length = 5;
@@ -24,8 +28,6 @@ public class Controller : MonoBehaviour
     public Text progress_meters_display;
     public Color c1;
     private Light sun;
-
-    public int deactivate_time;
 
     private int progress_meters;
     private int target_meters;
@@ -46,11 +48,6 @@ public class Controller : MonoBehaviour
         if (PlayerPrefs.HasKey("Lenght"))
         {
             level_length = PlayerPrefs.GetInt("Lenght");
-        }
-
-        if (PlayerPrefs.HasKey("Deactivate_Time"))
-        {
-            deactivate_time = PlayerPrefs.GetInt("Deactivate_Time");
         }
 
         if (standard_input)
@@ -146,7 +143,6 @@ public class Controller : MonoBehaviour
         if (cloud_meters <= 0)
         {
             SceneManager.LoadScene("menue");
-
         }
 
 
